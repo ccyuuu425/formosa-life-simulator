@@ -1,0 +1,112 @@
+const result = await createArtifact({artifactType:"react-vite",slug:"taiwan-life-sim",previewPath:"/",title:"台灣人生模擬器",description:"一款適合手機瀏覽器遊玩的繁體中文人生模擬遊戲。玩家從出生開始，透過逐年事件與選擇經歷台灣的求學、工作與成年生活，並可保存進度後繼續遊玩。"}); console.log(JSON.stringify(result)){"artifactId": "artifacts/taiwan-life-sim"
+"
+installProcessId": "U10HLSD2PE7BFPM0ATLZY"
+installStarted": true, "ports": {"web": 18111},
+"success": true, "workflows": {"web": "artifact s/taiwan-life-sim: web"}}--—
+name: delegation
+description: Delegate work through the subage nt CodeExecution callback, including backgrou nd runs and follow-ups. Spawn a subagent only when the user asks for one or a skill you ar e following requires one; otherwise do the wo rk yourself. Provides general guidance on sub agents, reified by the specific skills that u se them.
+# Delegation Skill
+Delegate work to a subagent through the 'suba gent'
+callback inside CodeExecution.## Frontend
+- Use 'wouter' for routing. wouter matches ea ch '<Route path="X"› against the URL *exactl y*, and a '‹Switch»' renders the first route that matches (or nothing, if none do) - so a page is reachable only when a top-level '<Rou te>
+carries its exact path. Add each page (a file in 'src/pages') as a sibling '<Route› in 'src/App.tsx's single flat '<Switch›' , an
+d end the
+<Switch› with '<Route component={
+NotFound} /> so an unknown URL shows a 404 i nstead of a blank screen.
+- A shared shell (sidebar/navbar, auth redi rect) is not a page, so it's a component that wraps the <Switch›" - not a <Route›. Therect) is not a page, so it's a component that wraps the <Switch>'
+- not a '<Route>'
+• The
+common mistake is wrapping your pages inside a parent '<Route path="/"›: that parent matc hes only the / URL, so on any other path it doesn't match, the inner routes never run, a nd the page renders blank.
+- A route the user can't reach is as good a s missing, so a multi-page app needs persiste nt navigation - a sidebar or navbar with a 'L ink' to each top-level page. Navigate with th e 'Link' component or the 'useLocation' hook from
+'wouter"
+, never by modifying the window
+directly.
+- For forms, always use shaden's 'useForm' ho ok and 'Form' component from @/components/uiok and 'Form' component from '@/components/ui /form' which wraps 'react-hook-form'
+- When appropriate, use the 'zodResolver f rom '@hookform/resolvers/zod' to validate for m data.
+- Use '
+•extend' to add validation rules to
+the schema.
+- Remember that the form component is contr olled, ensure you pass default values to the
+'useForm' hook.
+- Use the Orval-generated hooks from '@worksp ace/api-client-react for all API calls. Do n ot write raw 'fetch' or manual TanStack Query hooks when generated hooks exist.
+- Generated query hooks return 'T' directly
+- NOT wrapped in
+'{ data: T}.When passing options like 'enabled'
+• you
+MUST also pass i querykey:
+'typescript
+const { data } = useGetNote(noteId, { que
+ry: { enabled: !!noteId, querykey: getGetNote QueryKey (noteId) } });
+- For mutations, 'onSuccess' receives 'T d irectly:
+'typescript
+createRoom. mutate(‹ data: {name } ›,
+onSuccess: (room) = { setLocation('/ ro
+om/${room. id}); }- Invalidate related queries after mutation s using the generated querykey helpers.
+- Show a loading or skeleton state while qu eries (via "
+• isLoading') or mutations (via '
+.
+isPending) are being made.
+- Common pitfalls to avoid:
+- The 'useToast' hook is exported from @/h o0ks/use-toast'
+- If a form is failing to submit, try loggi ng out 'form. formstate.errors' to see if ther e are form validation errors for fields that might not have associated form fields.
+- DO NOT explicitly import React as the exi sting Vite setup has a JSX transformer that d oes it automatically.
+- Use 'import.meta.env.<ENV_VAR>' to accessenvironment variables on the frontend instea d of "
+process. env.<ENV_VAR>"
+• Note that varia
+bles must be prefixed with 'VITE_' in order f or the env vars to be available on the fronte nd.
+- '<SelectItem»' will throw an error if it has no value prop. Provide a value prop like this ‹SelectItem value="option1"»'.
+- NEVER import something you don't use - Ty pescript will fail the build on unused import S.
+- Always import React hooks ('useState"
+，'u
+seEffect
+, 'useRef
+, 'useCallback"
+" "useMemo
+) from
+'"react"' - never from a router librar
+y like '"wouter"•
+- Add a 'data-testid' attribute to every HTMLelement that users can interact with (button s, inputs, links, etc.) and to elements displ aying meaningful information (user data, stat us messages, dynamic content, key values).
+- Use unique, descriptive identifiers follo wing this pattern:
+- Interactive elements: '{action}-{target
+3° (e.g.,
+'button-submit'
+'input-email', 'li
+nk-profile')
+- Display elements: "{type}-{content} (e
+'text-username', 'img-avatar'
+' 'status-p
+ayment)
+- For dynamically generated elements (lists , grids, repeated components), append a uniqu e identifier at the end: {type}-{description
+}-{id}Examples: 'card-product-${productId}'
+'row-user-${ index}'
+, text-price-stitemId}'
+- The dynamic identifier can be any uniqu e value (database ID, index, key) as long as it's unique within that group
+- Keep test IDs stable and descriptive of t he element's purpose rather than its appearan ce or implementation details.
+## Styling and Theming
+- CSS custom properties use space-separated H SL values (no 'hsl() wrapper) :
+CSS
+: root {--primary: 221 83% 53%; }Usage: 'background-color: hsl(var(--primary
+- The scaffold's "index.css" ships with every
+CSS custom property set to 'red' as a placeh older. Rewrite the ': root' and
+• dark' blocks
+with a cohesive theme palette before writing any components. If any 'red' values remain, the page will render with red backgrounds, bo rders, and text.
+- When adding Google Fonts or any @import ur l...) to index.css, it MUST be the very fir st line of the file - before '@import "tailwi ndess"'
+and all other statements. PostCSS wil
+I fail silently if any '@import url(...)' app ears after other CSS rules.Use the '@'-prefixed paths to import shaden components and hooks.
+tions and provide Visit sent ac
+ns/si for company logos.
+- User may attach assets (images, etc.) in th eir request.
+- If the user asks you to include attached assets in the app, you can reference them in the frontend with the '@assets/...' import sy ntax.
+- For example, if the user attached asset i s at 'attached _assets/example.png'
+• you can
+r
+eference it in the frontend with 'import exam plePngPath from "@assets/example.png"'.## Dark Mode
+1. Set 'darkMode: ["class"] in tailwind.conf ig. ts and define color variables in ': root' nd'
+• dark' CSS classes
+2. Create ThemeProvider with useState("light" ), useEffect to toggle "dark" class on docume nt. documentElement, and localStorage sync
+3. When not using utility class names configu red in 'tailwind.config.ts
+, always use expli
+cit light/dark variants for ALL visual proper ties: 'className="bg-white dark:bg-black text
+-black dark:text-white"'
+• When using utility
+classes configured in tailwind config, you ca n assume these already been configured to aut omatically adapt to dark mode.
